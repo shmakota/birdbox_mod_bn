@@ -7,6 +7,7 @@
     "description": "Adds a monster that will drive you insane, and cause death upon seeing it. Always keep a blindfold on hand, and have a plan to break line of sight.",
     "category": "content",
     "obsolete": false,
+    "version": "08/22/2025",
     "lua_api_version": 2,
     "dependencies": [ "bn" ]
   }
