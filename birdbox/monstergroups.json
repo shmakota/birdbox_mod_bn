@@ -37,52 +37,13 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_SAFE",
+    "name": "GROUP_ZOMBIE",
+    "//": "only roaming nether monster",
     "is_safe": true,
     "default": "mon_null",
     "is_animal": true,
     "monsters": [
-      { "monster": "mon_birdbox", "freq": 1000, "cost_multiplier": 10 }
-    ]
-  },
-  {
-    "type": "monstergroup",
-    "name": "DUMP_ANIMALS",
-    "is_safe": true,
-    "default": "mon_null",
-    "is_animal": true,
-    "monsters": [
-      { "monster": "mon_birdbox", "freq": 1000, "cost_multiplier": 10 }
-    ]
-  },
-  {
-    "type": "monstergroup",
-    "name": "GROUP_DOMESTIC",
-    "is_safe": true,
-    "default": "mon_null",
-    "is_animal": true,
-    "monsters": [
-      { "monster": "mon_birdbox", "freq": 1000, "cost_multiplier": 10 }
-    ]
-  },
-  {
-    "type": "monstergroup",
-    "name": "GROUP_BLACK_ROAD",
-    "is_safe": true,
-    "default": "mon_null",
-    "is_animal": true,
-    "monsters": [
-      { "monster": "mon_birdbox", "freq": 1000, "cost_multiplier": 10 }
-    ]
-  },
-  {
-    "type": "monstergroup",
-    "name": "GROUP_PEST",
-    "is_safe": true,
-    "default": "mon_null",
-    "is_animal": true,
-    "monsters": [
-      { "monster": "mon_birdbox", "freq": 1000, "cost_multiplier": 10 }
+      { "monster": "mon_birdbox", "freq": 1, "cost_multiplier": 10 }
     ]
   }
 ]

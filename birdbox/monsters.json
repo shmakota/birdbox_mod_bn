@@ -51,7 +51,7 @@
       {
         "type": "spell",
         "spell_data": { "id": "spell_mon_summon_ferals", "hit_self": true },
-        "cooldown": 200,
+        "cooldown": 1000,
         "monster_message": "<color_red>You hear a crowd of people hooting and hollering!</color>"
       }
     ],
@@ -63,8 +63,9 @@
       "NOHEAD",
       "KEENNOSE",
       "HARDTOSHOOT",
+      "NIGHT_INVISIBILITY",
       "FLIES",
-      "PLASTIC",
+      "LOUDMOVES",
       "DARKPROOF",
       "ACIDPROOF",
       "HIT_AND_RUN",
@@ -80,6 +81,7 @@
     "looks_like": "mon_feral_human_pipe",
     "//": "attacks in packs and by lowering blindfold, which should be the big danger (they don't necessarily want to kill you, but make you look), so lowered stats",
     "grab_strength": 1,
+    "default_faction": "cult",
     "speed": 90,
     "hp": 70,
     "dodge": 0,
@@ -103,6 +105,7 @@
       "ATTACKMON",
       "GRABS",
       "HUMAN",
+      "SWARMS",
       "CAN_OPEN_DOORS",
       "PATH_AVOID_DANGER_1",
       "DROPS_AMMO"

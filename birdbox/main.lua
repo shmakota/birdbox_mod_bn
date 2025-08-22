@@ -58,21 +58,16 @@ local function is_timer_scheduled(name)
     return timers[name] ~= TimePoint.from_turn(0) and timers[name] > gapi.current_turn()
 end
 
--- Helper: Check line of sight to any enemy
+-- Helper: Check player's line of sight to any enemy
 local function check_enemy_los(name)
-    local saw_enemy = false
+    local creatures = {}
     for _, creature in ipairs(you:get_visible_creatures(60)) do
         if creature:get_name() == name then
-            saw_enemy = true
-            break
+            creatures[#creatures + 1] = creature
         end
     end
 
-    if saw_enemy then
-        return true
-    else
-        return false
-    end
+    return creatures
 end
 
 -- Birdbox creature effect
@@ -144,7 +139,6 @@ local function handle_birdbox(creature, wearing_protection, using_item, timer_na
     if creature:get_name() ~= custom_monster_names.mon_birdbox then
         return false
     end
-
     if wearing_protection then
         return true
     end
@@ -177,7 +171,7 @@ local function handle_birdbox_warning(creature, wearing_protection)
     end
 
     -- Near death experience effect
-    you:add_effect(EffectTypeId.new("visuals"), TimeDuration.from_minutes(30))
+    you:add_effect(EffectTypeId.new("visuals"), TimeDuration.from_minutes(10))
     gapi.add_msg(MsgType.critical, "Your vision blurs! You can feel your retina being distorted!")
     return true
 end
@@ -235,49 +229,36 @@ local birdbox_handlers = {
             if creature:get_name() ~= custom_monster_names.mon_birdbox then
                 return false
             end
-            
             if cfg.wearing_protection then
                 return true
             end
 
             -- Near death experience effect
             you:add_effect(EffectTypeId.new("visuals"), TimeDuration.from_minutes(30))
-            you:add_effect(EffectTypeId.new("eldritch_beauty"), TimeDuration.from_minutes(30))
             gapi.add_msg(MsgType.critical, "Your vision blurs! You can feel your retina being distorted!")
             return true
         end
     },
     {
-        creatures_fn = function() return you:get_hostile_creatures(10) end, -- adjust radius as needed
+        creatures_fn = function() return you:get_hostile_creatures(6) end,
         fn = function(creature, cfg)
             -- Feral cultist: blindfold grab
             if creature:get_name() ~= custom_monster_names.mon_feral_cultist then
                 return false
             end
 
-            local found_item = nil
-
-            -- Chance to perform special attack
-            if gapi.rng(1, 100) < 20 then
-                local item_worn = you:all_items_with_flag(blind_flag, true)
-                for _, item in ipairs(item_worn) do
-                    if you:is_wearing(item) then
-                        found_item = item
-                        break
-                    end
-                end
-            end
-
-            if found_item then
+            if cfg.using_item then
                 -- RNG roll determines the outcome
                 local roll = gapi.rng(1, 100)
 
                 -- Actual attack
-                if found_item:get_type() == ItypeId.new("blindfold") and roll < 50 then
-                    gapi.add_msg(MsgType.bad, "The feral cultist pulls down your " .. found_item:display_name(1) .. "!")
-                    found_item:convert(ItypeId.new("blindfold_raised"))
-                else
-                    gapi.add_msg(MsgType.bad, "The feral cultist attempts to pull down your " .. found_item:display_name(1) .. "!")
+                if creature:sees(you) then
+                    if cfg.using_item:get_type() == ItypeId.new("blindfold") and roll < 50 then
+                        gapi.add_msg(MsgType.bad, "The feral cultist pulls down your " .. cfg.using_item:display_name(1) .. "!")
+                        cfg.using_item:convert(ItypeId.new("blindfold_raised"))
+                    else
+                        gapi.add_msg(MsgType.bad, "The feral cultist attempts to pull down your " .. cfg.using_item:display_name(1) .. "!")
+                    end
                 end
             end
 
@@ -288,7 +269,8 @@ local birdbox_handlers = {
 
 function mod.birdbox_effect()
     -- Check birdbox sight
-    if check_enemy_los(custom_monster_names.mon_birdbox) then
+    local birdboxes_in_sight = check_enemy_los(custom_monster_names.mon_birdbox)
+    if #birdboxes_in_sight > 0 then
         mod.sees_birdbox = true
     else
         mod.sees_birdbox = false
