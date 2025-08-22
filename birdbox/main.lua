@@ -73,8 +73,6 @@ end
 -- Birdbox creature effect
 local function commit()
     reset_timer("strangle")
-
-    -- Monsters can technically be visible without being seen if they're super close
     local item_worn = you:all_items_with_flag(blind_flag, true)
     -- If wearing a blindfold, cancel any scheduled strangle and exit while informing player
     for _, item in ipairs(item_worn) do
@@ -83,6 +81,7 @@ local function commit()
         end
     end
 
+    -- Player has seen the monster for 15 seconds, schedule death
     if mod.sees_birdbox then
         mod.get_hallucination_message()
         set_timer("death", gapi.current_turn() + TimeDuration.from_seconds(5))
