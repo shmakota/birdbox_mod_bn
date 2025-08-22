@@ -136,9 +136,6 @@ function mod.update_timers()
 end
 
 local function handle_birdbox(creature, wearing_protection, using_item, timer_name, timer_duration, msg_type, msg_text, effect_time, hallucinate, mark_death)
-    if creature:get_name() ~= custom_monster_names.mon_birdbox then
-        return false
-    end
     if wearing_protection then
         return true
     end
@@ -163,9 +160,6 @@ local function handle_birdbox(creature, wearing_protection, using_item, timer_na
 end
 
 local function handle_birdbox_warning(creature, wearing_protection)
-    if creature:get_name() ~= custom_monster_names.mon_birdbox then
-        return false
-    end
     if wearing_protection then
         return true
     end
@@ -174,6 +168,24 @@ local function handle_birdbox_warning(creature, wearing_protection)
     you:add_effect(EffectTypeId.new("visuals"), TimeDuration.from_minutes(10))
     gapi.add_msg(MsgType.critical, "Your vision blurs! You can feel your retina being distorted!")
     return true
+end
+
+-- Handles the feral cultist's attempt to pull down the player's blindfold. Doesn't work on welding masks. (or modded stuff, may make it possible)
+local function handle_feral_cultist_blindfold_grab(creature, cfg)
+    if not cfg.using_item then
+        return
+    end
+    -- RNG roll determines the outcome
+    local roll = gapi.rng(1, 100)
+    -- Actual attack
+    if creature:sees(you) then
+        if cfg.using_item:get_type() == ItypeId.new("blindfold") and roll < 50 then
+            gapi.add_msg(MsgType.bad, "The feral cultist pulls down your " .. cfg.using_item:display_name(1) .. "!")
+            cfg.using_item:convert(ItypeId.new("blindfold_raised"))
+        else
+            gapi.add_msg(MsgType.bad, "The feral cultist attempts to pull down your " .. cfg.using_item:display_name(1) .. " but fails!")
+        end
+    end
 end
 
 -- Generic handler for a list of creatures and a handler config
@@ -188,87 +200,79 @@ local function handle_creatures(creatures, handler_cfg)
 end
 
 -- Handler configs for each enemy effect type
-local birdbox_handlers = {
+local monster_handlers = {
     {
+        -- Monster handlers: controls distance they act upon the player and what function they call when close
         creatures_fn = function() return you:get_visible_creatures(4) end,
         fn = function(creature, cfg)
             -- Birdbox, Level 1 distance: no time to cover face or move out of sight
-            return handle_birdbox(
-                creature,
-                cfg.wearing_protection,
-                cfg.using_item,
-                "death",
-                TimeDuration.from_seconds(5),
-                nil, nil,
-                TimeDuration.from_minutes(30),
-                true, true
-            )
+            if creature:get_name() == custom_monster_names.mon_birdbox then
+                handle_birdbox(
+                    creature,
+                    cfg.wearing_protection,
+                    cfg.using_item,
+                    "strangle",
+                    TimeDuration.from_seconds(15),
+                    MsgType.bad,
+                    "You see something... wrong. It's painful attempting to comprehend it, but so beautiful.",
+                    TimeDuration.from_minutes(30),
+                    false, false
+                )
+            end
+
+            -- Feral cultist: blindfold grab.
+            if creature:get_name() == custom_monster_names.mon_feral_cultist then
+                handle_feral_cultist_blindfold_grab(
+                    creature,
+                    cfg
+                )
+            end
         end
     },
     {
         creatures_fn = function() return you:get_visible_creatures(45) end,
         fn = function(creature, cfg)
             -- Birdbox, Level 2 distance: apply death countdown if they can't get to cover
-            return handle_birdbox(
-                creature,
-                cfg.wearing_protection,
-                cfg.using_item,
-                "strangle",
-                TimeDuration.from_seconds(15),
-                MsgType.bad,
-                "You see something... wrong. It's painful attempting to comprehend it, but so beautiful.",
-                TimeDuration.from_minutes(30),
-                false, false
-            )
+            if creature:get_name() == custom_monster_names.mon_birdbox then
+                return handle_birdbox(
+                    creature,
+                    cfg.wearing_protection,
+                    cfg.using_item,
+                    "strangle",
+                    TimeDuration.from_seconds(15),
+                    MsgType.bad,
+                    "You see something... wrong. It's painful attempting to comprehend it, but so beautiful.",
+                    TimeDuration.from_minutes(30),
+                    false, false
+                )
+            end
         end
     },
     {
         creatures_fn = function() return you:get_visible_creatures(60) end,
         fn = function(creature, cfg)
             -- Birdbox, Level 3 distance: warn player they are getting too close
-            if creature:get_name() ~= custom_monster_names.mon_birdbox then
-                return false
+            if creature:get_name() == custom_monster_names.mon_birdbox then
+                handle_birdbox_warning(
+                    creature,
+                    cfg.wearing_protection
+                )
             end
-            if cfg.wearing_protection then
-                return true
-            end
-
-            -- Near death experience effect
-            you:add_effect(EffectTypeId.new("visuals"), TimeDuration.from_minutes(30))
-            gapi.add_msg(MsgType.critical, "Your vision blurs! You can feel your retina being distorted!")
-            return true
-        end
-    },
-    {
-        creatures_fn = function() return you:get_hostile_creatures(6) end,
-        fn = function(creature, cfg)
-            -- Feral cultist: blindfold grab
-            if creature:get_name() ~= custom_monster_names.mon_feral_cultist then
-                return false
-            end
-
-            if cfg.using_item then
-                -- RNG roll determines the outcome
-                local roll = gapi.rng(1, 100)
-
-                -- Actual attack
-                if creature:sees(you) then
-                    if cfg.using_item:get_type() == ItypeId.new("blindfold") and roll < 50 then
-                        gapi.add_msg(MsgType.bad, "The feral cultist pulls down your " .. cfg.using_item:display_name(1) .. "!")
-                        cfg.using_item:convert(ItypeId.new("blindfold_raised"))
-                    else
-                        gapi.add_msg(MsgType.bad, "The feral cultist attempts to pull down your " .. cfg.using_item:display_name(1) .. "!")
-                    end
-                end
-            end
-
-            return true
         end
     }
 }
 
-function mod.birdbox_effect()
-    -- Check birdbox sight
+-- Runs every turn
+function mod.main()
+    -- Do timer logic
+    mod.update_timers()
+
+    -- If player is dead or marked for death, exit early and don't handle monsters, only timers
+    if you:get_hp() <= 0 or marked_for_death then
+        return
+    end
+
+    -- Check birdbox sight (here so it runs every turn)
     local birdboxes_in_sight = check_enemy_los(custom_monster_names.mon_birdbox)
     if #birdboxes_in_sight > 0 then
         mod.sees_birdbox = true
@@ -279,13 +283,8 @@ function mod.birdbox_effect()
             gapi.add_msg(MsgType.good, "You avert your eyes just in time.")
         end
     end
-
-    -- Do timer logic
-    mod.update_timers()
-    if you:get_hp() <= 0 or marked_for_death then
-        return
-    end
-
+    
+    -- Grab values for monster handlers
     local using_item = nil
     local wearing_protection = false
     local item_worn = you:all_items_with_flag(blind_flag, true)
@@ -297,8 +296,8 @@ function mod.birdbox_effect()
         end
     end
 
-    -- Pass shared state to each handler config
-    for _, handler_cfg in ipairs(birdbox_handlers) do
+    -- Pass shared state to each monster handler config
+    for _, handler_cfg in ipairs(monster_handlers) do
         handler_cfg.wearing_protection = wearing_protection
         handler_cfg.using_item = using_item
         local creatures = handler_cfg.creatures_fn()
