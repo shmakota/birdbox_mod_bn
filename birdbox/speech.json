@@ -1,0 +1,146 @@
+[
+  {
+    "type": "speech",
+    "speaker": [ "mon_birdbox" ],
+    "sound": "plants rustling in the distance, and the wind rushing above you!",
+    "volume": 80
+  },
+  {
+    "type": "speech",
+    "speaker": ["mon_birdbox"],
+    "sound": "a low guttural growl, muffled as if behind a wall of trees.",
+    "volume": 65
+  },
+  {
+    "type": "speech",
+    "speaker": ["mon_birdbox"],
+    "sound": "branches snapping suddenly, like something heavy moving through the forest.",
+    "volume": 75
+  },
+  {
+    "type": "speech",
+    "speaker": ["mon_birdbox"],
+    "sound": "distant whispering voices overlapping, unintelligible but urgent.",
+    "volume": 50
+  },
+  {
+    "type": "speech",
+    "speaker": ["mon_birdbox"],
+    "sound": "wings flapping violently, then vanishing into silence.",
+    "volume": 70
+  },
+  {
+    "type": "speech",
+    "speaker": ["mon_birdbox"],
+    "sound": "a single, sharp knock on wood, echoing unnaturally long.",
+    "volume": 60
+  },
+  {
+    "type": "speech",
+    "speaker": ["mon_birdbox"],
+    "sound": "a familiar voice crying out desperately, \"Please—look at me! I need your help!\" The tone cracks between panic and pleading, echoing unnaturally as if carried by the wind.",
+    "volume": 65
+  },
+  {
+    "type": "speech",
+    "speaker": ["mon_birdbox"],
+    "sound": "deep, distorted breathing right at the back of your neck.",
+    "volume": 85
+  },
+  {
+    "type": "speech",
+    "speaker": ["mon_birdbox"],
+    "sound": "crackling leaves circling you as if stirred by invisible footsteps.",
+    "volume": 70
+  },
+  {
+    "type": "speech",
+    "speaker": ["mon_birdbox"],
+    "sound": "a child’s laughter, far away, bending into static.",
+    "volume": 55
+  },
+  {
+    "type": "speech",
+    "speaker": ["mon_birdbox"],
+    "sound": "a low-frequency rumble beneath the ground, shaking faintly.",
+    "volume": 65
+  },
+  {
+    "type": "speech",
+    "speaker": ["mon_birdbox"],
+    "sound": "metallic scraping sound, like claws dragging across stone.",
+    "volume": 75
+  },
+  {
+    "type": "speech",
+    "speaker": ["mon_feral_cultist"],
+    "sound": "an unfamiliar voice say \"Look here! Help me!\".",
+    "volume": 25
+  },
+  {
+    "type": "speech",
+    "speaker": ["mon_feral_cultist"],
+    "sound": "an unfamiliar voice yell \"TAKE THAT FUCKING BLINDFOLD OFF NOW!\".",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": ["mon_feral_cultist"],
+    "sound": "an unfamiliar voice whisper, \"You’re safe if you just look… it’s beautiful here.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": ["mon_feral_cultist"],
+    "sound": "an unfamiliar voice shout angrily, \"STOP HIDING BEHIND THAT CLOTH! FACE THE TRUTH!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": ["mon_feral_cultist"],
+    "sound": "an unfamiliar voice laugh hysterically, then yell, \"We can all see it—why can’t you?\"",
+    "volume": 25
+  },
+  {
+    "type": "speech",
+    "speaker": ["mon_feral_cultist"],
+    "sound": "an unfamiliar voice hiss, \"Take it off… take it off… take it off…\" repeating faster each time.",
+    "volume": 25
+  },
+  {
+    "type": "speech",
+    "speaker": ["mon_feral_cultist"],
+    "sound": "an unfamiliar voice call gently, \"It’s okay, you’re safe now. Just look.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": ["mon_feral_cultist"],
+    "sound": "an unfamiliar voice scream in rage, \"BLIND FOOLS! OPEN YOUR EYES!\"",
+    "volume": 35
+  },
+  {
+    "type": "speech",
+    "speaker": ["mon_feral_cultist"],
+    "sound": "an unfamiliar voice chant rhythmically, \"See… see… see…\" like a ritual echo.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": ["mon_feral_cultist"],
+    "sound": "an unfamiliar voice whisper mockingly, \"Do you think that cloth will save you forever?\"",
+    "volume": 25
+  },
+  {
+    "type": "speech",
+    "speaker": ["mon_feral_cultist"],
+    "sound": "an unfamiliar voice giggle softly, then murmur, \"Take the blindfold off, and it’ll stop hurting.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": ["mon_feral_cultist"],
+    "sound": "an unfamiliar voice roar furiously, \"LOOK AT IT! LOOK AT IT NOW!\"",
+    "volume": 40
+  }
+]

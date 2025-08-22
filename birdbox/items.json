@@ -1,0 +1,48 @@
+[
+  {
+    "id": "blindfold",
+    "type": "ARMOR",
+    "name": { "str": "blindfold" },
+    "//": "A folded bandana still takes up some space on the head.",
+    "description": "A simple fabric covering tied over the eyes to block sight.  Useful for sleeping in bright areas.",
+    "weight": "72 g",
+    "volume": "250 ml",
+    "price": "6 USD",
+    "price_postapoc": "10 cent",
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "scarf",
+    "color": "dark_gray",
+    "covers": [ "eyes" ],
+    "coverage": 95,
+    "encumbrance": 10,
+    "warmth": 5,
+    "material_thickness": 1,
+    "environmental_protection": 1,
+    "use_action": [
+      {
+        "type": "transform",
+        "msg": "You move the blindfold off of your eyes.",
+        "target": "blindfold_raised"
+      }
+    ],
+    "flags": [ "BLIND", "OVERSIZE" ]
+  },
+  {
+    "id": "blindfold_raised",
+    "type": "ARMOR",
+    "name": { "str": "blindfold (raised)" },
+    "symbol": "[",
+    "looks_like": "scarf",
+    "copy-from": "blindfold",
+    "description": "A simple fabric covering tied over the eyes to block sight.  Useful for sleeping in bright areas.  This one's raised off your eyes, greatly reducing the utility.",
+    "use_action": [
+      {
+        "type": "transform",
+        "msg": "You move the blindfold over your eyes.",
+        "target": "blindfold"
+      }
+    ],
+    "flags": [ "OVERSIZE" ]
+  }
+]
