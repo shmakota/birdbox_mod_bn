@@ -11,19 +11,33 @@ local marked_for_death = false
 local sees_birdbox = false
 
 local messages = {
-    "Your eyes catch a shape that isn\'t there--no outline, no shadow, only a wrongness. Your lungs seize as if the world itself has clamped down on your ribs. The last thought isn\'t yours at all.",
-    "Something stirs at the edge of your mind, too vast to comprehend, too intimate to ignore. The instant you notice it, your will shatters like glass.",
-    "There\'s no sound, no motion--only a presence, pressing against your skull, peeling open the parts of you that were never meant to be touched. You stop resisting.",
-    "The world folds inward. Sight, sound, thought--everything you are turns inside out. What remains doesn\'t belong to you anymore.",
-    "Your eyes betray you. What they show isn\'t form, but a truth so jagged it guts the mind. The last thing you feel is relief, because the struggle is finally over.",
-    "The air thickens. The silence is suffocating, pregnant with an unseen enormity. Something looks back at you from nowhere, and your body obeys.",
-    "You glimpse a flicker--impossible angles, endless depth. Understanding blooms for a heartbeat too long, and in that moment, you are already gone.",
-    "You hear your mother\'s voice, warm and familiar: \"It\'s okay, you can rest now.\" You almost smile as the cold slips over you.",
-    "Someone calls your name--your partner, laughing, the way they used to before the world ended. The sound fills you, drowning out the silence. You follow the laughter until there\'s nothing left of you.",
+    "Your eyes catch a shape that isn’t thereno outline, no shadow, only a wrongness. Your lungs seize, and the last thought isn’t yours at all.",
+    "Something stirs at the edge of your mind, too vast to comprehend, too intimate to ignore. The instant you notice it, your will shatters.",
+    "There’s no sound, no motion—only a presence pressing against your skull, peeling open what was never meant to be touched. You stop resisting.",
+    "The world folds inward. Sight, sound, thought—everything you are turns inside out. What remains doesn’t belong to you anymore.",
+    "Your eyes betray you. What they show isn’t form, but a truth so jagged it guts the mind. The last thing you feel is relief.",
+    "The air thickens. Silence grows suffocating, heavy with an unseen enormity. Something looks back from nowhere, and your body obeys.",
+    "You glimpse a flicker—impossible angles, endless depth. Understanding blooms for a heartbeat too long, and in that moment, you are gone.",
+    "You hear your mother’s voice, warm and familiar: \"It’s okay, you can rest now.\" You almost smile as the cold slips over you.",
+    "Someone calls your name—your partner, laughing as they once did. The sound fills you, drowning out the silence, until nothing remains.",
     "A hand touches your shoulder, gentle, familiar. You turn and see the one you lost, smiling as though death never touched them. Their lips move: \"Come with me.\" And you do.",
-    "The monster doesn\'t wear a face--it wears their face. The one you swore you\'d never forget. For one beautiful, unbearable moment, they are alive again, and you give yourself over to it.",
-    "Your father\'s voice steadies you: \"You\'ve fought enough. Let me take it from here.\" The reassurance unravels your last threads of fear. You close your eyes, and he takes you away.",
-    "You see your family waiting in the doorway of a home that no longer exists, arms open, smiling, whole. Every instinct screams, but love is louder."
+    "The monster doesn’t wear a face—it wears *their* face. For one unbearable, beautiful moment, they are alive again, and you give yourself over.",
+    "Your father’s voice steadies you: \"You’ve fought enough. Let me take it from here.\" The reassurance unravels your last threads of fear.",
+    "You see your family waiting in the doorway of a home that no longer exists, arms open, smiling, whole. Love is louder than instinct."
+}
+
+local lures = {
+    "You see something… wrong. It hurts to comprehend, yet it shines with terrible beauty. Move towards it.",
+    "Each glance tears at your sanity, yet what breaks feels like freedom. Move towards it.",
+    "There is warmth in the cold. There is comfort in the terror. You are not meant to see, and yet… you must. Move towards it.",
+    "It twists, not with malice, but with invitation. The longer you resist, the more gentle it becomes. Move towards it.",
+    "The world bends, as if yielding to something greater. You sense it smiling, though it has no face. Move towards it.",
+    "It is wrong in all the ways that make it right, and it waits for you, patient as eternity. Move towards it.",
+    "Your eyes ache, but you cannot look away. The shape folds into itself, and in its ruin is perfection. Move towards it.",
+    "It’s not death you feel calling. It’s freedom, wrapped in colors your mind cannot hold. Move towards it.",
+    "You’ve been searching for this your whole life without knowing. Now it’s here… waiting for you. Move towards it."
+}
+
 }
 
 
@@ -240,7 +254,7 @@ local monster_handlers = {
                     "strangle",
                     TimeDuration.from_seconds(15),
                     MsgType.bad,
-                    "You see something... wrong. It's painful attempting to comprehend it, but so beautiful.",
+                    lures[math.random(#lures)],
                     TimeDuration.from_minutes(20),
                     false,
                     false
