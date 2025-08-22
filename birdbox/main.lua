@@ -211,12 +211,12 @@ local monster_handlers = {
                     creature,
                     cfg.wearing_protection,
                     cfg.using_item,
-                    "strangle",
-                    TimeDuration.from_seconds(15),
-                    MsgType.bad,
-                    "You see something... wrong. It's painful attempting to comprehend it, but so beautiful.",
+                    "death",
+                    TimeDuration.from_seconds(5),
+                    nil, nil,
                     TimeDuration.from_minutes(30),
-                    false, false
+                    true,
+                    true
                 )
             end
 
@@ -242,8 +242,9 @@ local monster_handlers = {
                     TimeDuration.from_seconds(15),
                     MsgType.bad,
                     "You see something... wrong. It's painful attempting to comprehend it, but so beautiful.",
-                    TimeDuration.from_minutes(30),
-                    false, false
+                    TimeDuration.from_minutes(20),
+                    false,
+                    false
                 )
             end
         end
